@@ -45,9 +45,10 @@ class Player{
 }
 
 class Attack{
-    constructor({position, velocity}){
+    constructor({position, velocity, color}){
         this.position = position
         this.velocity = velocity
+        this.color = color
 
         this.radius = 3
     }
@@ -55,7 +56,7 @@ class Attack{
     draw(){
         c.beginPath()
         c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2)
-        c.fillStyle = 'red'
+        c.fillStyle = this.color
         c.fill()
         c.closePath()
     }
@@ -154,6 +155,8 @@ const grids = []
 
 let frames = 0
 let randomInt = Math.floor(Math.random() * 400 + 500)
+let randomInt2 = Math.floor(Math.random() * 150 + 50)
+let check = false
 
 
 function animate(){
@@ -178,7 +181,7 @@ function animate(){
         grid.invadors.forEach((invador, i) => {
             invador.update({velocity: grid.velocity})
             attacks.forEach((attack, j) => {
-             if (attack.position.y - attack.radius <= invador.position.y + invador.height
+             if (attack.velocity.y != 5 && attack.position.y - attack.radius <= invador.position.y + invador.height
                     && attack.position.x + attack.radius >= invador.position.x
                     && attack.position.x - attack.radius <= invador.position.x + invador.width
                     && attack.position.y + attack.radius >= invador.position.y){
@@ -202,8 +205,37 @@ function animate(){
         frames = 0
     }
     frames++;
+
+    if(frames % randomInt2 === 0){
+        randomInt2 = Math.floor(Math.random() * 250 + 100)
+        grids.forEach(grid => {
+            grid.invadors.forEach(inv => {
+                let rand = Math.random()
+                if (rand < 0.20){
+                attacks.push(new Attack({
+                    position:{
+                        x: inv.position.x + 12.5,
+                        y: inv.position.y
+                    },
+                    velocity:{
+                        x: 0,
+                        y: 5
+                    },
+                    color: 'red'
+                }))
+                }
+            })
+        })
+    }
+
+    attacks.forEach(attack1 => {
+        if(attack1.position.x >= player.position.x && attack1.position.x <= player.position.x + player.width && attack1.position.y >= player.position.y && attack1.position.y <= player.position.y + player.height){
+            alert('you win')
+        }
+    })
 }
 
+if(check === false)
 animate()
 
 addEventListener('keydown', ({key}) =>{
@@ -220,12 +252,13 @@ addEventListener('keydown', ({key}) =>{
         attacks.push(new Attack({
             position:{
             x: player.position.x + player.width / 2,
-            y: player.position.y + 10
+            y: player.position.y
         },
         velocity:{
             x: 0,
             y: -10
-        }
+        },
+        color: 'white'
         }))
     }
 
