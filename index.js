@@ -4,6 +4,10 @@ const c = canvas.getContext('2d');
 canvas.width = innerWidth - 1;
 canvas.height = innerHeight - 4;
 
+var vid = document.getElementById("song");
+vid.volume = 0.1;
+
+
 class Player{
     constructor(){
         this.velocity = {
