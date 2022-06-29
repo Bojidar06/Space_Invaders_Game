@@ -156,6 +156,10 @@ class Grid{
             this.velocity.x = -this.velocity.x
             this.velocity.y = 25
         }
+
+        if(this.position.y >= player.position.y){
+            player.opacity = 0
+        }
     }
 }
 
@@ -167,6 +171,8 @@ let frames = 0
 let randomInt = Math.floor(Math.random() * 400 + 500)
 let randomInt2 = Math.floor(Math.random() * 150 + 50)
 let check = false
+let Score = document.getElementById('score')
+let score = 0
 
 
 function animate(){
@@ -198,7 +204,9 @@ function animate(){
                     setTimeout(() => {
                         const found = grid.invadors.find((invader2) => invader2 === invador)
                         const found2 = attacks.find((attack2) => attack2 === attack)
-                        
+                        score += 10
+                        Score.textContent = score
+
                         if(found && found2){
                         grid.invadors.splice(i, 1)
                         attacks.splice(j, 1)
@@ -239,11 +247,13 @@ function animate(){
     }
 
     attacks.forEach(attack1 => {
-        if(attack1.position.x >= player.position.x && attack1.position.x <= player.position.x + player.width && attack1.position.y >= player.position.y && attack1.position.y <= player.position.y + player.height){
+        if(attack1.position.x >= player.position.x && attack1.position.x <= player.position.x + player.width &&
+            attack1.position.y >= player.position.y && attack1.position.y <= player.position.y + player.height){
             player.opacity = 0
         }
     })
 }
+
 
 if(check === false)
 animate()
@@ -273,3 +283,4 @@ addEventListener('keydown', ({key}) =>{
     }
 
 })
+
