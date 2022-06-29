@@ -29,6 +29,12 @@ class Player{
     }
 
     draw(){
+
+        if(this.opacity == 0){
+            let over = document.getElementById('over')
+            over.style.left = "50%"
+        }
+
         c.globalAlpha = this.opacity
         c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
 
