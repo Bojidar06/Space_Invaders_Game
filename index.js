@@ -10,11 +10,13 @@ class Player{
             x: 0
         }
 
+        this.opacity = 1
+
         const image = new Image()
         image.src = './spaceship.png'
 
         image.onload = () =>{
-            const scale = 0.12
+            const scale = 0.14
             this.image = image
             this.width = image.width * scale
             this.height = image.height * scale
@@ -27,7 +29,9 @@ class Player{
     }
 
     draw(){
+        c.globalAlpha = this.opacity
         c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
+
     }
 
     update(){
@@ -50,7 +54,7 @@ class Attack{
         this.velocity = velocity
         this.color = color
 
-        this.radius = 3
+        this.radius = 4.4
     }
 
     draw(){
@@ -80,7 +84,7 @@ class Invador{
         image.src = './invador.png'
 
         image.onload = () =>{
-            const scale = 0.06
+            const scale = 0.082
             this.image = image
             this.width = image.width * scale
             this.height = image.height * scale
@@ -119,8 +123,8 @@ class Grid{
 
         this.invadors = []
 
-        const rows = Math.floor(Math.random() * 5 + 2)
-        const columns = Math.floor(Math.random() * 10 + 5)
+        const rows = Math.floor(Math.random() * 4 + 2)
+        const columns = Math.floor(Math.random() * 9 + 5)
 
         this.width = columns * 25
 
@@ -128,8 +132,8 @@ class Grid{
             for(let y = 0; y < rows; ++y)
                 this.invadors.push(new Invador({
                     position: {
-                        x: x * 25,
-                        y: y * 25
+                        x: x * 33,
+                        y: y * 33
                     }
                 }))
             }
@@ -163,7 +167,7 @@ function animate(){
     requestAnimationFrame(animate)
     canvas.width = innerWidth - 1;
     canvas.height = innerHeight - 4;   
-    c.fillStyle = 'black'
+    c.fillStyle = '#232323'
     c.fillRect(0, 0, canvas.width, canvas.height)
     player.update()
 
@@ -230,7 +234,7 @@ function animate(){
 
     attacks.forEach(attack1 => {
         if(attack1.position.x >= player.position.x && attack1.position.x <= player.position.x + player.width && attack1.position.y >= player.position.y && attack1.position.y <= player.position.y + player.height){
-            alert('you win')
+            player.opacity = 0
         }
     })
 }
