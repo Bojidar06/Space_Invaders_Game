@@ -1,12 +1,21 @@
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
+let Score = document.getElementById('score');
+let score = 0;
 
 canvas.width = innerWidth - 1;
 canvas.height = innerHeight - 4;
 
-var vid = document.getElementById("song");
-vid.volume = 0.1;
-
+var play_again = document.getElementsByClassName('button-74')[0];
+var music = {
+    overworld: new Howl({
+        src: [
+            "song.mp3"
+        ],
+        autoplay: false,
+        volume: 0.1
+    })
+}
 
 class Player{
     constructor(){
@@ -37,6 +46,7 @@ class Player{
         if(this.opacity == 0){
             let over = document.getElementById('over')
             over.style.left = "50%"
+            Score.textContent = "0"
         }
 
         c.globalAlpha = this.opacity
@@ -161,9 +171,10 @@ class Grid{
             this.velocity.y = 25
         }
 
-        if(this.position.y >= player.position.y){
+        if(this.position.y >= canvas.height - player.height / 2 - 60){
             player.opacity = 0
         }
+        
     }
 }
 
@@ -174,12 +185,27 @@ const grids = []
 let frames = 0
 let randomInt = Math.floor(Math.random() * 400 + 500)
 let randomInt2 = Math.floor(Math.random() * 150 + 50)
-let check = false
-let Score = document.getElementById('score')
-let score = 0
+let check_animate = false
+
+play_again.addEventListener('click', () => {
+    if(!music.overworld.playing())
+    music.overworld.play();
+    player.opacity = 1
+    game.over = false
+    play_again.style.left = "-500%"
+    play_again.disabled = false;
+    if(!check_animate)
+    animate()
+    check_animate = true
+})
+
+game = {
+    over: true
+}
 
 
 function animate(){
+    if(game.over) return
     requestAnimationFrame(animate)
     canvas.width = innerWidth - 1;
     canvas.height = innerHeight - 4;   
@@ -254,15 +280,22 @@ function animate(){
         if(attack1.position.x >= player.position.x && attack1.position.x <= player.position.x + player.width &&
             attack1.position.y >= player.position.y && attack1.position.y <= player.position.y + player.height){
             player.opacity = 0
+
+            setTimeout(() =>{
+                game.over = true
+                music.overworld.stop()
+            }, 3000)
+            
         }
     })
 }
 
 
-if(check === false)
 animate()
 
 addEventListener('keydown', ({key}) =>{
+    if (game.over) return
+
     if (key == 'ArrowRight'){
         player.velocity.x = 8
     }
