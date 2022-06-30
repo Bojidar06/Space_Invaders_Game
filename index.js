@@ -13,7 +13,7 @@ var music = {
             "song.mp3"
         ],
         autoplay: false,
-        volume: 0.1
+        volume: 0.08
     })
 }
 
