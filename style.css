@@ -20,3 +20,31 @@ h1{
     transform: translate(-50%, -50%);
     font-size: 4.5vw;
 }
+
+
+.button-74 {
+  background-color: #fbeee0;
+  border: 2px solid #422800;
+  border-radius: 30px;
+  box-shadow: #422800 4px 4px 0 0;
+  color: #422800;
+  cursor: pointer;
+  position: fixed;
+  font-weight: 600;
+  line-height: 50px;
+  padding: 0 20px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  font-size: 26px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-74:hover {
+  background-color: #fff;
+}
