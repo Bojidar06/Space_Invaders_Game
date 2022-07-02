@@ -1,7 +1,9 @@
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 let Score = document.getElementById('score');
+let Bullets = document.getElementById('bullets')
 let score = 0;
+let bullets = 0
 
 canvas.width = innerWidth - 1;
 canvas.height = innerHeight - 4;
@@ -44,9 +46,10 @@ class Player{
     draw(){
 
         if(this.opacity == 0){
+            game.over = true
             let over = document.getElementById('over')
             over.style.left = "50%"
-            Score.textContent = "0"
+            Bullets.textContent = "0"
         }
 
         c.globalAlpha = this.opacity
@@ -145,6 +148,7 @@ class Grid{
 
         const rows = Math.floor(Math.random() * 4 + 2)
         const columns = Math.floor(Math.random() * 9 + 5)
+        bullets += 3 * (rows*columns)
 
         this.width = columns * 25
 
@@ -193,7 +197,7 @@ play_again.addEventListener('click', () => {
     player.opacity = 1
     game.over = false
     play_again.style.left = "-500%"
-    play_again.disabled = false;
+    play_again.disabled = true
     if(!check_animate)
     animate()
     check_animate = true
@@ -288,6 +292,8 @@ function animate(){
             
         }
     })
+    
+    Bullets.textContent = bullets.toString()
 }
 
 
@@ -305,7 +311,9 @@ addEventListener('keydown', ({key}) =>{
     else if (key == 'ArrowUp' || key == 'ArrowDown'){
         player.velocity.x = 0
     }
-    else if(key == ' '){
+    else if(key == ' ' && bullets > 0){
+        bullets -= 1
+
         attacks.push(new Attack({
             position:{
             x: player.position.x + player.width / 2,
