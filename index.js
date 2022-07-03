@@ -148,7 +148,7 @@ class Grid{
 
         const rows = Math.floor(Math.random() * 4 + 2)
         const columns = Math.floor(Math.random() * 9 + 5)
-        bullets += 3 * (rows*columns)
+        bullets += 4 * (rows*columns)
 
         this.width = columns * 25
 
@@ -326,6 +326,5 @@ addEventListener('keydown', ({key}) =>{
         color: 'white'
         }))
     }
-
 })
 
