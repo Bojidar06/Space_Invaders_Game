@@ -15,7 +15,7 @@ var music = {
             "song.mp3"
         ],
         autoplay: false,
-        volume: 0.08
+        volume: 0.07
     })
 }
 
