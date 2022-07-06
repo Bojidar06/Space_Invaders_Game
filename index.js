@@ -203,7 +203,7 @@ play_again.addEventListener('click', () => {
     check_animate = true
 })
 
-game = {
+let game = {
     over: true
 }
 
