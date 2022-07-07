@@ -1,6 +1,8 @@
 import Player from './player.js'
 import Attack from './attack.js'
 import Invador from './invador.js'
+import Grid from './grid.js'
+
 
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
@@ -22,57 +24,6 @@ var music = {
         volume: 0.08
     })
 }
-
-class Grid{
-    constructor(){
-        this.position = {
-            x: 0, 
-            y: 0
-        }
-
-        this.velocity = {
-            x: 5,
-            y: 0
-        }
-
-        this.invadors = []
-
-        const rows = Math.floor(Math.random() * 4 + 2)
-        const columns = Math.floor(Math.random() * 9 + 5)
-        bullets += 3 * (rows*columns)
-
-        this.width = columns * 25
-
-        for(let x = 0; x < columns; ++x){
-            for(let y = 0; y < rows; ++y)
-                this.invadors.push(new Invador({
-                    position: {
-                        x: x * 33,
-                        y: y * 33
-                    }
-                }))
-            }
-        }
-
-    update(){
-        this.position.x += this.velocity.x
-        this.position.y += this.velocity.y
-
-        this.velocity.y = 0
-
-        if (this.position.x + this.width >= canvas.width+10
-            || this.position.x <= 1){
-            this.velocity.x = -this.velocity.x
-            this.velocity.y = 25
-        }
-
-        if(this.position.y >= canvas.height - player.height / 2 - 60){
-            player.opacity = 0
-        }
-        
-    }
-}
-
 const player = new Player()
 const attacks = []
 const grids = []
@@ -98,7 +49,6 @@ let game = {
     over: true
 }
 
-
 function animate(){
     if(game.over) return
     requestAnimationFrame(animate)
@@ -118,7 +68,26 @@ function animate(){
     })
 
     grids.forEach((grid) => {
-        grid.update()
+        grid.position.x += grid.velocity.x
+        grid.position.y += grid.velocity.y
+
+        grid.velocity.y = 0
+
+        if (grid.position.x + grid.width >= innerWidth+10
+            || grid.position.x <= 1){
+            grid.velocity.x = -grid.velocity.x
+            grid.velocity.y = 25
+        }
+
+        if(grid.position.y >= innerHeight - player.height / 2 - 60){
+            player.opacity = 0
+            setTimeout(() =>{
+                game.over = true
+                music.overworld.stop()
+            }, 3000)
+        }
+
+ 
         grid.invadors.forEach((invador, i) => {
             invador.update({velocity: grid.velocity})
             attacks.forEach((attack, j) => {
@@ -146,6 +115,7 @@ function animate(){
         grids.push(new Grid())
         randomInt = Math.floor(Math.random() * 400 + 500)
         frames = 0
+        bullets += 3 * (grids[grids.length-1].rows * grids[grids.length-1].columns)
     }
     frames++;
 
