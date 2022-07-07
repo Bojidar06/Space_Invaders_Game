@@ -1,5 +1,5 @@
 import Invador from './invador.js'
-import Player from './player.js'
+
 export default class Grid{
     constructor(){
         this.position = {
