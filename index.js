@@ -1,3 +1,7 @@
+import Player from './player.js'
+import Attack from './attack.js'
+import Invador from './invador.js'
+
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 let Score = document.getElementById('score');
@@ -15,121 +19,8 @@ var music = {
             "song.mp3"
         ],
         autoplay: false,
-        volume: 0.07
+        volume: 0.08
     })
-}
-
-class Player{
-    constructor(){
-        this.velocity = {
-            x: 0
-        }
-
-        this.opacity = 1
-
-        const image = new Image()
-        image.src = './spaceship.png'
-
-        image.onload = () =>{
-            const scale = 0.14
-            this.image = image
-            this.width = image.width * scale
-            this.height = image.height * scale
-
-            this.position = {
-               x: canvas.width / 2 - this.width / 2,
-               y: canvas.height - this.height / 2 - 60
-            }
-        } 
-    }
-
-    draw(){
-
-        if(this.opacity == 0){
-            game.over = true
-            let over = document.getElementById('over')
-            over.style.left = "50%"
-            Bullets.textContent = "0"
-        }
-
-        c.globalAlpha = this.opacity
-        c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
-
-    }
-
-    update(){
-        if(this.image){
-            this.position.x += this.velocity.x
-            if (player.position.x >= 0 && player.position.x + player.width <= canvas.width){
-                this.draw()
-            }
-            else{
-                this.position.x -= this.velocity.x
-                this.draw()
-            }
-        }
-    }
-}
-
-class Attack{
-    constructor({position, velocity, color}){
-        this.position = position
-        this.velocity = velocity
-        this.color = color
-
-        this.radius = 4.4
-    }
-
-    draw(){
-        c.beginPath()
-        c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2)
-        c.fillStyle = this.color
-        c.fill()
-        c.closePath()
-    }
-
-    update(){
-        this.draw()
-        this.position.x += this.velocity.x
-        this.position.y += this.velocity.y
-    }
-}
-
-
-class Invador{
-    constructor({position}){
-        this.velocity = {
-            x: 0, 
-            y: 0
-        }
-
-        const image = new Image()
-        image.src = './invador.png'
-
-        image.onload = () =>{
-            const scale = 0.082
-            this.image = image
-            this.width = image.width * scale
-            this.height = image.height * scale
-
-            this.position = {
-               x: position.x,
-               y: position.y
-            }
-        } 
-    }
-
-    draw(){
-        c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
-    }
-
-    update({velocity}){
-        if(this.image){
-                this.position.x += velocity.x
-                this.position.y += velocity.y
-                this.draw()
-        }
-    }
 }
 
 class Grid{
@@ -148,7 +39,7 @@ class Grid{
 
         const rows = Math.floor(Math.random() * 4 + 2)
         const columns = Math.floor(Math.random() * 9 + 5)
-        bullets += 4 * (rows*columns)
+        bullets += 3 * (rows*columns)
 
         this.width = columns * 25
 
@@ -326,5 +217,6 @@ addEventListener('keydown', ({key}) =>{
         color: 'white'
         }))
     }
+
 })
 
